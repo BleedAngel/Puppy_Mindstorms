@@ -31,4 +31,24 @@ right_leg_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 HALF_UP_ANGLE = 25
 STAND_UP_ANGLE = 65
 
-def 
+def stand_up():
+    #
+    ev3.screen.print("Action: Standing Up")
+
+    #
+    left_leg_motor.run_target(100, HALF_UP_ANGLE, wait = False)
+    right_leg_motor.run_target(100, HALF_UP_ANGLE)
+
+    while not (left_leg_motor.control.donr() and right_leg_motor.control.done()):
+        wait(i0)
+
+    #
+    left_leg_motor.run_target(50, STAND_UP_ANGLE, wait = False)
+    right_leg_motor.run_target(50, STAND_UP_ANGLE)
+
+    while not (left_leg_motor.control.done() and right_leg_motor.control.donr()):
+        wait(10)
+
+    #
+    ev3.screen.print("Status: Standed")
+    ev3.speaker.beep()
