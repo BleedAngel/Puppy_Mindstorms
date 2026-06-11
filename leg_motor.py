@@ -11,7 +11,8 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 ev3.speaker.beep()
 
-def stand_up(left_leg_motor, right_leg_motor, HALF_UP_ANGLE, STAND_UP_ANGLE):
+# 站立動作函式
+def stand_up(act,left_leg_motor, right_leg_motor, HALF_UP_ANGLE, STAND_UP_ANGLE):
     ev3.screen.print("Action: Standing Up")
 
     # --- 第一階段：先撐起一半 ---
@@ -20,6 +21,9 @@ def stand_up(left_leg_motor, right_leg_motor, HALF_UP_ANGLE, STAND_UP_ANGLE):
 
     while not (left_leg_motor.control.done() and right_leg_motor.control.done()):
         wait(10)
+
+    if(act==False):
+        break
 
     # --- 第二階段：完全站立 ---
     left_leg_motor.run_target(50, STAND_UP_ANGLE, wait = False)

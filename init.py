@@ -7,8 +7,6 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile, Image
 
-import init
-import color_sensor
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
@@ -17,19 +15,16 @@ import color_sensor
 ev3 = EV3Brick()
 ev3.speaker.beep()
 
-NEUTRAL_EYES = Image(ImageFile.NEUTRAL)
-TIRED_EYES = Image(ImageFile.TIRED_MIDDLE)
-TIRED_LEFT_EYES = Image(ImageFile.TIRED_LEFT)
-TIRED_RIGHT_EYES = Image(ImageFile.TIRED_RIGHT)
-SLEEPING_EYES = Image(ImageFile.SLEEPING)
-HURT_EYES = Image(ImageFile.HURT)
-ANGRY_EYES = Image(ImageFile.ANGRY)
-HEART_EYES = Image(ImageFile.LOVE)
-SQUINTY_EYES = Image(ImageFile.TEAR)
+# 定義雙腿馬達和頭部馬達
+def reset():
+    buttons = ev3.buttons.pressed()
+    left_leg_motor = Motor(Port.D, Direction.COUNTERCLOCKWISE)
+    right_leg_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
+    head_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE, gears = [[1, 24], [12, 36]])
+    return buttons, left_leg_motor, right_leg_motor, head_motor
 
-buttons, left_leg_motor, right_leg_motor, head_motor = init.reset()
-
-while True:
-    color_sensor()
-    if(Button.CENTER in buttons):
-        break
+def reset_motor_angles():
+    HALF_UP_ANGLE = 25
+    STAND_UP_ANGLE = 65
+    HEAD_UP_ANGLE = 0
+    HEAD_DOWN_ANGLE = -40
