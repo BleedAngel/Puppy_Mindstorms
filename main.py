@@ -7,8 +7,8 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile, Image
 
-import init
-import color_sensor
+from color_sensor import act
+
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
@@ -27,9 +27,7 @@ ANGRY_EYES = Image(ImageFile.ANGRY)
 HEART_EYES = Image(ImageFile.LOVE)
 SQUINTY_EYES = Image(ImageFile.TEAR)
 
-buttons, left_leg_motor, right_leg_motor, head_motor = init.reset()
-
 while True:
-    color_sensor()
+    act()
     if(Button.CENTER in buttons):
         break

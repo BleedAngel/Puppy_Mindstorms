@@ -11,14 +11,19 @@ from pybricks.media.ev3dev import SoundFile, ImageFile, Image
 ev3 = EV3Brick()
 ev3.speaker.beep()
 
-#校準頭部馬達
-def adjust_head(head_motor, HEAD_UP_ANGLE, HEAD_DOWN_ANGLE):
+# 校準頭部位置
+def reset_head():
+    
     ev3.screen.print("Calibrating...")
     ev3.light.on(Color.ORANGE)
 
-    while True:
-        buttons = ev3.buttons.pressed()
+    # 定義頭部馬達和按鈕
+    head_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE, gears = [[1, 24], [12, 36]])
+    buttons = ev3.buttons.pressed()
+    HEAD_UP_ANGLE = 20
+    HEAD_DOWN_ANGLE = -20
 
+    while True:
         if Button.CENTER in buttons:
             ev3.light.on(Color.GREEN)
             ev3.screen.print("Calibration Done")
@@ -40,3 +45,17 @@ def adjust_head(head_motor, HEAD_UP_ANGLE, HEAD_DOWN_ANGLE):
         wait(100)
     head_motor.reset_angle(0)
     wait(500)
+
+# 根據反應做出頭部動作
+def move_head(x):
+
+    # 定義頭部馬達和按鈕
+    head_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE, gears = [[1, 24], [12, 36]])
+    buttons = ev3.buttons.pressed()
+    HEAD_UP_ANGLE = 20
+    HEAD_DOWN_ANGLE = -20
+
+    if(x==1):
+        head_motor.run_target(50, HEAD_DOWN_ANGLE)
+    else:
+        head_motor.run_target(50, HEAD_UP_ANGLE)
