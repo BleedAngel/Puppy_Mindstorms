@@ -1,18 +1,10 @@
 #!/usr/bin/env pybricks-micropython
-from pybricks.hubs import EV3Brick
-from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
-                                 InfraredSensor, UltrasonicSensor, GyroSensor)
-from pybricks.parameters import Port, Stop, Direction, Button, Color
-from pybricks.tools import wait, StopWatch, DataLog
-from pybricks.robotics import DriveBase
-from pybricks.media.ev3dev import SoundFile, ImageFile
-
-# 初始化EV3主機
-ev3 = EV3Brick()
-ev3.speaker.beep()
+from pybricks.ev3devices import Motor
+from pybricks.parameters import Port, Direction
+from pybricks.tools import wait
 
 # 站立動作函式
-def stand_up(x):
+def stand_up(x, ev3):
 
     left_leg_motor = Motor(Port.D, Direction.COUNTERCLOCKWISE)
     right_leg_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
@@ -35,3 +27,24 @@ def stand_up(x):
 
     while not (left_leg_motor.control.done() and right_leg_motor.control.done()):
         wait(500)
+
+    # 釋放馬達
+    left_leg_motor.stop()
+    right_leg_motor.stop()
+
+# 搖尾巴 / 活潑腳步動作
+def playful_legs(ev3, times=2):
+
+    left_leg_motor = Motor(Port.D, Direction.COUNTERCLOCKWISE)
+    right_leg_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
+
+    for _ in range(times):
+        left_leg_motor.run_target(120, 18, wait=False)
+        right_leg_motor.run_target(120, 12)
+        wait(120)
+        left_leg_motor.run_target(120, 0, wait=False)
+        right_leg_motor.run_target(120, 0)
+        wait(120)
+
+    left_leg_motor.stop()
+    right_leg_motor.stop()
